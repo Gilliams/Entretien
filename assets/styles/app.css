@@ -3,3 +3,16 @@
 @import "tailwindcss/components";
 
 @import "tailwindcss/utilities";
+
+
+.input-control {
+    @apply appearance-none bg-white border-2 border-gray-200 rounded py-2 px-4 text-gray-900 leading-tight w-2/3;
+}
+
+.input-control:focus {
+    @apply outline-none bg-white border-blue-300;
+}
+
+.label-control {
+    @apply w-2/3 block text-gray-900 font-bold mb-1 pr-4;
+}
