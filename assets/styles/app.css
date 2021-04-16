@@ -16,3 +16,19 @@
 .label-control {
     @apply w-2/3 block text-gray-900 font-bold mb-1 pr-4;
 }
+
+.alert {
+    @apply w-2/3 mt-8 m-auto border-l-4 p-4 text-white;
+}
+
+.alert-success {
+    @apply bg-green-500 border-green-600;
+}
+
+.alert-error {
+    @apply bg-red-500 border-red-600;
+}
+
+.alert-warning {
+    @apply bg-yellow-500 border-yellow-600;
+}

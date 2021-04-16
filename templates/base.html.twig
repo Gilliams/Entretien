@@ -36,6 +36,12 @@
 							<li class="mr-2">
 								<a class="inline-block py-2 px-2 text-white no-underline" href="{{ path('article_create') }}">Créer un article</a>
 							</li>
+							<div class="div flex row">
+								<img class="w-8 h-8 rounded-full mr-4 avatar" data-tippy-content="Author Name" src="http://i.pravatar.cc/300" alt="Avatar of Author">
+								<p class="inline-block py-2 text-white no-underline">
+									{{ app.user.username}}
+								</p>
+							</div>
 						{% else %}
 							<li class="mr-2">
 								<a class="inline-block py-2 px-2 text-white no-underline" href="{{ path('app_login') }}">Connexion</a>
@@ -48,6 +54,9 @@
 				</div>
 			</div>
 		</nav>
+
+		{% include ('partials/_flash_messages.html.twig') %}
+
 		{% block content %}{% endblock %}
 		<footer class="bg-gray-900 ">
 			<div class="container max-w-6xl mx-auto flex items-center px-2 py-8">

@@ -40,6 +40,9 @@ class RegisterController extends AbstractController
 
             $this->manager->persist($user);
             $this->manager->flush();
+
+            $this->addFlash('success', "Bienvenue : " . $user->getUsername());
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('register/index.html.twig', [

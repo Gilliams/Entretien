@@ -33,17 +33,17 @@ class ArticlesController extends AbstractController
             'articles' => $articles
         ]);
     }
+
     /**
      * @Route("/article/{slug}", name="article")
      */
-    public function show($slug, Request $request): Response
+    public function show(Article $article, $slug, Request $request): Response
     {
 
-        $article = $this->manager->getRepository(Article::class)->findBySlug($slug);
+        $findArticle = $this->manager->getRepository(Article::class)->findBySlug($slug);
 
         $comment = new Comment();
-        $articleComment = new Article();
-        
+
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
@@ -57,7 +57,7 @@ class ArticlesController extends AbstractController
         }
 
         return $this->render('articles/show.html.twig', [
-            'item' => $article,
+            'item' => $findArticle,
             'form' => $form->createView()
         ]);
     }
@@ -81,12 +81,32 @@ class ArticlesController extends AbstractController
             $article->setAuthor($this->getUser());
             $article->setSlug($slug);
 
+            $this->addFlash('success', 'Votre article vient d\'être créer');
+
             $this->manager->persist($article);
             $this->manager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('articles/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+
+    /**
+    * @Route("/article/suppression/{slug}", name="article_delete", methods={"DELETE"})
+    */
+    public function delete(Article $article, Request $request, EntityManagerInterface $manager): Response
+    {
+        if( $this->isCsrfTokenValid('article_delete_' . $article->getId(), $request->request->get('token') )){
+            $manager->remove($article);
+            $manager->flush();
+        }
+
+        $this->addFlash('warning', 'Votre article a bien été supprimer');
+        return $this->redirectToRoute('home');
+    }
+
+
 }
