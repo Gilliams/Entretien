@@ -130,7 +130,6 @@ class ArticlesController extends AbstractController
         $manager->flush();
 
         $this->addFlash('warning', 'Votre commentaire a bien été supprimer');
-        return $this->redirectToRoute('home');
     }
 
     /**
