@@ -26,10 +26,10 @@ class ArticleType extends AbstractType
                 "label" => "Image (JPG or PNG file)",
                 'required' => false,
                 'allow_delete' => true,
-                'download_uri' => false,
+                'download_uri' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "S'inscrire"
+                'label' => "Créer l'article"
             ]);
         ;
     }
