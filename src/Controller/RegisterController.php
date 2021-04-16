@@ -14,15 +14,29 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegisterController extends AbstractController
 {
 
+    /**
+    * @var EntityManagerInterface $manager
+    */
     private $manager;
 
+    /**
+     * Passe l'entité manager dans le constructeur afin de le redistribué au sein de la classe
+     *
+     * @param EntityManagerInterface $manager
+     */
     public function __construct(EntityManagerInterface $manager){
         $this->manager = $manager;
     }
 
     /**
-     * @Route("/inscription", name="register")
-     */
+    * Inscription avec formulaire et redirection vers la page de connexion
+    *
+    * @param Request $request
+    * @param UserPasswordEncoderInterface $encoder Permet de crypter les mot de passes
+    * @return Response 
+    *
+    * @Route("/inscription", name="register")
+    */
     public function index(Request $request, UserPasswordEncoderInterface $encoder ): Response
     {
 

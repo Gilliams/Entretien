@@ -3,9 +3,14 @@
 {% block title %}Article{% endblock %}
 
 {% block content %}
-    {% for article in item %}
-        {% set articleImage = article.imageName == 'https://picsum.photos/800/600' ? 'https://picsum.photos/800/600' : vich_uploader_asset(article) %}
 
+    {# Affichge de l'article  #}
+    {% for article in item %}
+
+        {# Si la valeur par defaut de imageName n'est plus la même alors le chemin vers l'image change #}
+        {% set articleImage = article.imageName == 'https://picsum.photos/800/600' ? 'https://picsum.photos/800/600' : vich_uploader_asset(article) %}
+        
+        {# Si l'utitilisateur est connecté et est le même que celui de l'autheur de l'article alors il peut le supprimer #}
         {% if app.user and app.user == article.author %}
             <a href="#" class="cursor-pointer px-4 py-2 absolute right-4 top-20 text-lg text-white bg-red-500 rounded hover:bg-red-700 outline-none"
                 onClick="event.preventDefault(); document.getElementById('js-article-delete-form').submit();">
@@ -45,6 +50,8 @@
         
         <div class="container w-full max-w-6xl mx-auto py-8">
             <div class=" bg-white rounded shadow-md hover:shadow-lg relative smooth">
+
+                {# Si l'utilisateur est connecté alors il peut laisser un commentaire #}
                 {% if app.user %}
                     <h3 class="text-gray-800 font-serif text-2xl pl-6 pt-6 font-bold">Commentaire</h3>
                     {{ form(form) }}
@@ -73,6 +80,19 @@
                                     </p>
                                 </div>
                                 <p class="text-gray-600 text-xs md:text-sm">[CreatedAt] </p>
+
+                                {# Si l'utitilisateur est connecté et est le même que celui de l'autheur du commentaire alors il peut le supprimer #}
+                                {% if app.user and app.user == comment.authorComment %}
+                                    <a href="#" class="cursor-pointer px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 outline-none"
+                                        onClick="event.preventDefault(); document.getElementById('js-comment-delete-form').submit();">
+                                        Supprimer le commentaire {{comment.id}}
+                                    </a>
+
+                                    <form id="js-comment-delete-form" action="{{ path("comment_delete", {id: comment.id}) }}" method="post" class="">
+                                        <input type="hidden" name="token" value="{{ csrf_token('comment_delete_' ~ comment.id) }}">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                    </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

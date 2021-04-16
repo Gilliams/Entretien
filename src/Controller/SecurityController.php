@@ -10,8 +10,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/connexion", name="app_login")
-     */
+    * Création de formulaire de connexion de l'utilisateur et redirection vers la page d'accueil 
+    *
+    * @param AuthenticationUtils $authenticationUtils
+    * @return Response
+    *
+    * @Route("/connexion", name="app_login")
+    */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
@@ -27,8 +32,10 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/deconnexion", name="app_logout")
-     */
+    * Déconnexion de l'utilisateur
+    * 
+    * @Route("/deconnexion", name="app_logout")
+    */
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');

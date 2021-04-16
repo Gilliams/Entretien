@@ -13,6 +13,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * Gestion des articles et des commentaires
+ */
 class ArticlesController extends AbstractController
 {
 
@@ -23,6 +26,10 @@ class ArticlesController extends AbstractController
     }
 
     /**
+     * Affichage des articles dans la HomePage récuperer depuis le repository avec findAll
+     * 
+     * @return Resepons
+     * 
      * @Route("/", name="home")
      */
     public function index(): Response
@@ -35,6 +42,14 @@ class ArticlesController extends AbstractController
     }
 
     /**
+     * Affichage spécifique d'un article via son slug, avec ajout d'un formulaire d'ajout de commentaire
+     * 
+     * 
+     * @param Article $article instance de Article
+     * @param String $slug Titre de l'article
+     * @param Request $request Requête du formulaire de commentaire
+     * @return Resepons
+     * 
      * @Route("/article/{slug}", name="article")
      */
     public function show(Article $article, $slug, Request $request): Response
@@ -63,6 +78,11 @@ class ArticlesController extends AbstractController
     }
 
     /**
+     * Création d'un article dans la page creation-article
+     * 
+     * @param Request $request Récupere le formulaire de la création d'article
+     * @return Response
+     * 
      * @Route("/articles/creation-article", name="article_create")
      */
     public function create(Request $request): Response
@@ -95,8 +115,34 @@ class ArticlesController extends AbstractController
     }
 
     /**
-    * @Route("/article/suppression/{slug}", name="article_delete", methods={"DELETE"})
-    */
+     * Suppresssion d'un commentaire spécifique dans un article
+     *
+     * @param Comment $comment Permet de séléctionner le commentaire à supprimer
+     * @param Request $request Récupére les infos pour séléctionner le commentaire
+     * @param EntityManagerInterface $manager Permet d'effectuer et sauvegarder les changements
+     * @return Response
+     * 
+     * @Route("/article/commentaire/suppression/{id<\d+>}", name="comment_delete")
+     */
+    public function deleteCommentaire(Comment $comment, Request $request, EntityManagerInterface $manager): Response
+    {
+        $manager->remove($comment);
+        $manager->flush();
+
+        $this->addFlash('warning', 'Votre commentaire a bien été supprimer');
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * Suppression d'un article spécifique
+     *
+     * @param Article $article Permet de séléctionner l'article à supprimer
+     * @param Request $request Récupére les infos pour séléctionner l'article
+     * @param EntityManagerInterface $manager 
+     * @return Response
+     * 
+     * @Route("/article/suppression/{slug}", name="article_delete", methods={"DELETE"})
+     */
     public function delete(Article $article, Request $request, EntityManagerInterface $manager): Response
     {
         if( $this->isCsrfTokenValid('article_delete_' . $article->getId(), $request->request->get('token') )){
@@ -107,6 +153,5 @@ class ArticlesController extends AbstractController
         $this->addFlash('warning', 'Votre article a bien été supprimer');
         return $this->redirectToRoute('home');
     }
-
 
 }
