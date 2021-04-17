@@ -49,7 +49,7 @@
         </div>
         
         <div class="container w-full max-w-6xl mx-auto py-8">
-            <div class=" bg-white rounded shadow-md hover:shadow-lg relative smooth">
+            <div class=" bg-white rounded pb-8 shadow-md hover:shadow-lg relative smooth">
 
                 {# Si l'utilisateur est connecté alors il peut laisser un commentaire #}
                 {% if app.user %}
@@ -79,16 +79,15 @@
                                         {{ comment.authorComment.username}}
                                     </p>
                                 </div>
-                                <p class="text-gray-600 text-xs md:text-sm">[CreatedAt] </p>
 
                                 {# Si l'utitilisateur est connecté et est le même que celui de l'autheur du commentaire alors il peut le supprimer #}
                                 {% if app.user and app.user == comment.authorComment %}
                                     <a href="#" class="cursor-pointer px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 outline-none"
                                         onClick="event.preventDefault(); document.getElementById('js-comment-delete-form').submit();">
-                                        Supprimer le commentaire {{comment.id}}
+                                        Supprimer le commentaire 
                                     </a>
 
-                                    <form id="js-comment-delete-form" action="{{ path("comment_delete", {id: comment.id}) }}" method="post" class="">
+                                    <form id="js-comment-delete-form" action="{{ path("comment_delete", {id: comment.id}) }}" method="post" class="hidden">
                                         <input type="hidden" name="token" value="{{ csrf_token('comment_delete_' ~ comment.id) }}">
                                         <input type="hidden" name="_method" value="DELETE">
                                     </form>

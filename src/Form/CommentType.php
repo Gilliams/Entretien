@@ -18,11 +18,11 @@ class CommentType extends AbstractType
                 'label' => '',
                 'attr' => [
                     'placeholder' => 'Ajouter un commentaire',
-                    'class' => 'input-control',
+                    'class' => 'input-control input-comment',
                 ]
             ])
             ->add('submit', SubmitType::class, [
-                'label' => "Envoyer votre commentaire"
+                'label' => "Envoyer votre commentaire",
             ]);
         ;
     }
