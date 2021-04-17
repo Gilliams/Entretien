@@ -1,0 +1,20 @@
+App\Entity\User:
+    user{1..10}:
+        email: user<current()>\@domain.fr
+        username: <name()>
+        password: 'secret'
+
+App\Entity\Article:
+    article{1..10}:
+        author: '@user<numberBetween(1, 10)>'
+        title: <name()>
+        content: <text()>
+        createdAt: <datetime()>
+        slug: 'title-<current()>'
+        imageName: 'https://picsum.photos/800/600'
+
+App\Entity\Comment:
+    comment{1..10}:
+        authorComment: '@user<numberBetween(1, 10)>'
+        commentArticle: '@article<numberBetween(1, 10)>'
+        message: <text()>

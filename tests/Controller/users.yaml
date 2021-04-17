@@ -1,0 +1,5 @@
+App\Entity\User:
+    user_user:
+        email: "john\\@doe.fr"
+        username: "john"
+        password: '\$2y\$10\$jEqgQHcJqq7BXGFmxvw4UODPadQGKcsESsMzygjjNR19V0Uc0.uoK'
