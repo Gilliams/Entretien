@@ -2,6 +2,7 @@
 
 namespace App\Tests\Controller;
 
+use App\Tests\Controller\NeedLogin;
 use Symfony\Component\HttpFoundation\Response;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -9,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class SecurityControllerTest extends WebTestCase
 {
     use FixturesTrait;
+    use NeedLogin;
 
     public function testDisplayLogin()
     {
@@ -29,6 +31,28 @@ class SecurityControllerTest extends WebTestCase
         $this->assertResponseRedirects('/connexion');
         $client->followRedirect();
         $this->assertSelectorExists('.alert.alert-danger');
+    }
+
+    public function testSuccessfullLogin()
+    {
+        $client = static::createClient();
+        $this->loadFixtureFiles([__DIR__ . '\users.yaml']);
+        $csrfToken = $client->getContainer()->get('security.csrf.token_manager')->getToken('authenticate');
+        $crawler = $client->request('POST','/connexion', [
+            '_csrf_token' => $csrfToken,
+            'email' => 'john@doe.fr',
+            'password' => 'secret'
+        ]);
+        $this->assertResponseRedirects('/');
+    }
+
+    public function testLetAuthenticateUserAccess()
+    {
+        $client = static::createClient();
+        $users = $this->loadFixtureFiles([__DIR__ . '\users.yaml']);
+        $this->login($client, $users['user_user']);
+        $client->request('GET', '/');
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
     }
 
 }
