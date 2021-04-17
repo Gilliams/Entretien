@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 /**
  * Gestion des articles et des commentaires
@@ -82,6 +83,7 @@ class ArticlesController extends AbstractController
      * 
      * @param Request $request Récupere le formulaire de la création d'article
      * @return Response
+     * @Security("is_granted('ROLE_USER')", message="Vous devez être connecter pour pouvoir créer un article")
      * 
      * @Route("/articles/creation-article", name="article_create")
      */

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller;
 
-use App\Tests\Controller\NeedLogin;
+use App\Tests\Traits\NeedLogin;
 use Symfony\Component\HttpFoundation\Response;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Entity\Traits;
+namespace App\Tests\Traits;
 
 trait AssertHasErrors 
 {

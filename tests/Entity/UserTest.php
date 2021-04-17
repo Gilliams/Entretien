@@ -5,7 +5,7 @@ namespace App\Tests\Entity;
 use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Comment;
-use App\Tests\Entity\Traits\AssertHasErrors;
+use App\Tests\Traits\AssertHasErrors;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 

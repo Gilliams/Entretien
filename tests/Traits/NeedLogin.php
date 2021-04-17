@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Traits;
 
 use App\Entity\User;
 use Symfony\Component\BrowserKit\Cookie;
