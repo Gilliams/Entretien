@@ -124,14 +124,17 @@ class ArticlesController extends AbstractController
      * @param EntityManagerInterface $manager Permet d'effectuer et sauvegarder les changements
      * @return Response
      * 
-     * @Route("/article/commentaire/suppression/{id<\d+>}", name="comment_delete")
+     * @Route("/article/commentaire/suppression/{id<\d+>}", name="comment_delete", methods={"DELETE"})
      */
-    public function deleteCommentaire(Comment $comment, Request $request, EntityManagerInterface $manager): Response
+    public function deleteComment(Comment $comment, Request $request, EntityManagerInterface $manager): Response
     {
-        $manager->remove($comment);
-        $manager->flush();
+        if( $this->isCsrfTokenValid('comment_delete_' . $comment->getId(), $request->request->get('token') )){
+            $manager->remove($comment);
+            $manager->flush();
+        }
 
         $this->addFlash('warning', 'Votre commentaire a bien été supprimer');
+        return $this->redirectToRoute('home');
     }
 
     /**
