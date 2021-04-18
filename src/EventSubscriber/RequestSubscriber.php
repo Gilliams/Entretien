@@ -16,6 +16,6 @@ class RequestSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event)
     {
-        dd($event);
+        // dd($event);
     }
 }
