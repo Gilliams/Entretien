@@ -49,7 +49,7 @@ class ArticlesController extends AbstractController
      * @param Article $article instance de Article
      * @param String $slug Titre de l'article
      * @param Request $request Requête du formulaire de commentaire
-     * @return Resepons
+     * @return Response
      * 
      * @Route("/article/{slug}", name="article")
      */
