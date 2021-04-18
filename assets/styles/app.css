@@ -33,3 +33,30 @@
 .alert-warning {
     @apply bg-yellow-500 border-yellow-600;
 }
+
+
+.login-form-container {
+    height: 86vh;
+    margin-bottom: 7px;
+}
+
+.inscription-container {
+    height: 83vh;
+    margin-bottom: 3px;
+}
+
+.h1 {
+    @apply text-center text-gray-900 font-bold text-4xl;
+}
+
+.h2 {
+    @apply text-gray-900 font-bold text-3xl;
+}
+
+.h3 {
+    @apply text-gray-700 font-bold text-2xl;
+}
+
+.subtitle {
+    @apply text-sm text-gray-800 font-bold;
+}

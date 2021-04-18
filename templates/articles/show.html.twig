@@ -10,90 +10,31 @@
         {# Si la valeur par defaut de imageName n'est plus la même alors le chemin vers l'image change #}
         {% set articleImage = article.imageName == 'https://picsum.photos/800/600' ? 'https://picsum.photos/800/600' : vich_uploader_asset(article) %}
         
-        {# Si l'utitilisateur est connecté et est le même que celui de l'autheur de l'article alors il peut le supprimer #}
-        {% if app.user and app.user == article.author %}
-            <a href="#" class="cursor-pointer px-4 py-2 absolute right-4 top-20 text-lg text-white bg-red-500 rounded hover:bg-red-700 outline-none"
-                onClick="event.preventDefault(); document.getElementById('js-article-delete-form').submit();">
-                Supprimer l'article
-            </a>
+        {# Formulaire de suppression d'article #}
+        {% include ('articles/partials/_deleteArticle.html.twig') %}
 
-            <form id="js-article-delete-form" action="{{ path("article_delete", {slug: article.slug}) }}" method="post" class="hidden">
-                <input type="hidden" name="token" value="{{ csrf_token('article_delete_' ~ article.id) }}">
-                <input type="hidden" name="_method" value="DELETE">
-            </form>
-        {% endif %}
-
-
-        <!--Title-->
         <div class="text-center pt-16 md:pt-32">
-            <p class="text-sm md:text-base text-teal-500 font-bold">{{ article.createdAt|date('d F Y')}}<span class="text-gray-900"></span></p>
-            <h1 class="font-bold break-normal text-3xl md:text-5xl">
-                {{ article.title}}
-                <br> <span class="text-sm md:text-base text-teal-500 font-bold">par</span> <br>
-                <p class="text-gray-800 hover:text-teal-500 no-underline border-b-2 border-teal-500">
-                    {{ article.author.username }}
-                </p>
+            <p class="subtitle md:text-base">{{ article.createdAt|date('d F Y')}}</p>
+            <h1 class="h1">
+                {{ article.title|capitalize}}
             </h1>
+            <span class="text-sm md:text-base text-teal-500 font-bold block mt-4">par</span>
+            <h3 class="h3 mt-2">
+                {{ article.author.username|upper }}
+            </h3>
         </div>
-        <!--image-->
+
         <div class="container w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded" style="background-image:url('{{articleImage}}'); height: 75vh;"></div>
-        <!--Container-->
         <div class="container max-w-5xl mx-auto -mt-32">
             <div class="mx-0 sm:mx-6">
-                <div class="bg-white w-full p-8 md:p-24 text-xl md:text-2xl text-gray-800 leading-normal shadow-md m-5">
-                    <!--Post Content-->
+                <div class="bg-white w-full p-8 md:p-24 text-lg text-gray-800 leading-normal shadow-md m-5">
                     <p class="font-serif">{{ article.content }}</p>									
-                    <!--/ Post Content-->
                 </div>
             </div>
         </div>
         
-        <div class="container w-full max-w-6xl mx-auto py-8">
-            <div class=" bg-white rounded pb-8 shadow-md hover:shadow-lg relative smooth">
-
-                {# Si l'utilisateur est connecté alors il peut laisser un commentaire #}
-                {% if app.user %}
-                    <h3 class="text-gray-800 font-serif text-2xl pl-6 pt-6 font-bold">Commentaire</h3>
-                    {{ form(form) }}
-                    {% else %}
-                    <p class="text-gray-800 font-serif text-xl p-6 font-bold">Connectez vous afin de pouvoir laisser un commentaire</p>
-                {% endif %}
-                
-            </div>
-        </div>
-
+        {# Partie commentaire de l'article #}
+        {% include ('articles/partials/_comment.html.twig') %}
         
-        <div class="container w-full max-w-6xl mx-auto py-8">
-            <div class=" flex flex-wrap -mx-2">
-                {% for comment in article.comments %}
-                    <div class="w-full px-2 pb-12">
-                        <div class=" bg-white rounded shadow-md hover:shadow-lg relative smooth">
-                            <span class="no-underline hover:no-underline">
-                            <div class="p-6 h-auto " >	
-                                <p class="font-bold text-xl text-gray-900">{{ comment.message }}</p>
-                            </div>
-                            <div class="flex items-center justify-between inset-x-0 bottom-0 p-6">
-                                <div class="div flex row">
-                                    <img class="w-8 h-8 rounded-full mr-4 avatar" data-tippy-content="Author Name" src="http://i.pravatar.cc/300" alt="Avatar of Author">
-                                    <p class="text-gray-800 font-serif text-base pr-6">
-                                        {{ comment.authorComment.username}}
-                                    </p>
-                                </div>
-
-                                {# Si l'utitilisateur est connecté et est le même que celui de l'autheur du commentaire alors il peut le supprimer #}
-                                {% if app.user and app.user == comment.authorComment %}
-                                    <form action="{{ path("comment_delete", {id: comment.id}) }}" method="post" class="">
-                                        <input type="hidden" name="token" value="{{ csrf_token('comment_delete_' ~ comment.id) }}">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="target" class="block" value="{{comment.id }}">
-                                        <button type="submit" class="cursor-pointer px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 outline-none">Supprimer le commentaire</button>
-                                    </form>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
     {% endfor %}
 {% endblock %}

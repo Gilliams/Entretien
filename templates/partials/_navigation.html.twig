@@ -1,0 +1,35 @@
+<nav class="bg-gray-900 p-4 mt-0 w-full">
+    <div class="container mx-auto flex justify-between items-center">
+        <div class="flex text-white font-extrabold">
+            <a class="flex text-white text-base no-underline hover:text-white hover:no-underline" href="{{ path('home') }}">
+                <span class="w-0 md:w-auto md:block pl-1">Blog</span>
+            </a>
+        </div>
+
+        <div class="flex pl-4 text-sm">
+            <ul class="list-reset flex justify-between flex-1 md:flex-none items-center">
+                {% if app.user %}
+                    <li class="mr-2">
+                        <a class="inline-block py-2 px-2 text-white no-underline" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                    <li class="mr-2">
+                        <a class="inline-block py-2 px-2 text-white no-underline" href="{{ path('article_create') }}">Créer un article</a>
+                    </li>
+                    <div class="div flex row">
+                        <img class="w-8 h-8 rounded-full mr-4 avatar" data-tippy-content="Author Name" src="http://i.pravatar.cc/300" alt="Avatar of Author">
+                        <p class="inline-block py-2 text-white no-underline">
+                            {{ app.user.username}}
+                        </p>
+                    </div>
+                {% else %}
+                    <li class="mr-2">
+                        <a class="inline-block py-2 px-2 text-white no-underline" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                    <li class="mr-2">
+                        <a class="inline-block text-yellow-400 no-underline hover:text-yellow-200 hover:text-underline py-2 px-2" href="{{ path('register') }}">Inscription</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

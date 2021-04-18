@@ -3,7 +3,7 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block content %}
-<form method="post">
+<form method="post" class="login-form-container">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
@@ -15,7 +15,7 @@
     {% endif %}
 
     <div class="flex w-2/3 m-auto mb-8 justify-center place-items-center flex-col">
-        <h1 class="text-2xl text-gray-darker my-8">Merci de vous connecter</h1>
+        <h2 class="h2 text-center my-8">Merci de vous connecter</h2>
         <div class="group-control w-2/3 flex  mt-2 ">
             <label for="inputEmail" class="label-control md:text-left">Votre email</label>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="input-control" required autofocus>

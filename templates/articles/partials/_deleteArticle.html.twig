@@ -1,0 +1,13 @@
+{# Si l'utitilisateur est connecté et est le même que celui de l'autheur de l'article alors il peut le supprimer #}
+
+{% if app.user and app.user == article.author %}
+    <a href="#" class="cursor-pointer px-4 py-2 absolute right-4 top-20 text-lg text-white bg-red-500 rounded hover:bg-red-700 outline-none"
+        onClick="event.preventDefault(); document.getElementById('js-article-delete-form').submit();">
+        Supprimer l'article
+    </a>
+
+    <form id="js-article-delete-form" action="{{ path("article_delete", {slug: article.slug}) }}" method="post" class="hidden">
+        <input type="hidden" name="token" value="{{ csrf_token('article_delete_' ~ article.id) }}">
+        <input type="hidden" name="_method" value="DELETE">
+    </form>
+{% endif %}
